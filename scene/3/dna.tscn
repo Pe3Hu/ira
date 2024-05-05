@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://csn7iyhh5qbir"]
+
+[ext_resource type="Script" path="res://scene/3/dna.gd" id="1_0xxje"]
+[ext_resource type="PackedScene" uid="uid://bdvwlut3oh8xb" path="res://scene/3/spiral.tscn" id="2_u3ypm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
+
+[node name="DNA" type="MarginContainer"]
+custom_minimum_size = Vector2(5, 5)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = -15.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_0xxje")
+
+[node name="BG" type="Panel" parent="."]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
+
+[node name="Spirals" type="Node2D" parent="."]
+
+[node name="First" parent="Spirals" instance=ExtResource("2_u3ypm")]
+
+[node name="Second" parent="Spirals" instance=ExtResource("2_u3ypm")]
+
+[node name="Nucleotides" type="Node2D" parent="."]

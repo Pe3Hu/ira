@@ -1,0 +1,16 @@
+res://scene/2/planet.tscn
+res://scene/0/game.gd
+res://scene/2/area.tscn
+res://scene/3/dna.tscn
+res://scene/3/dna.gd
+res://scene/1/god.tscn
+res://scene/1/god.gd
+res://scene/3/spiral.tscn
+res://scene/3/spiral.gd
+res://scene/2/universe.tscn
+res://scene/2/universe.gd
+res://script/Global.gd
+res://scene/3/nucleotide.tscn
+res://scene/3/nucleotide.gd
+res://scene/3/nucleobase.tscn
+res://scene/3/nucleobase.gd
