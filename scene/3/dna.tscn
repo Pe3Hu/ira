@@ -27,10 +27,10 @@ visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
 
+[node name="Nucleotides" type="Node2D" parent="."]
+
 [node name="Spirals" type="Node2D" parent="."]
 
 [node name="First" parent="Spirals" instance=ExtResource("2_u3ypm")]
 
 [node name="Second" parent="Spirals" instance=ExtResource("2_u3ypm")]
-
-[node name="Nucleotides" type="Node2D" parent="."]

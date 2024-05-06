@@ -21,7 +21,9 @@ func _ready() -> void:
 
 
 func init_arr() -> void:
-	arr.edge = [1, 2, 3, 4, 5, 6]
+	arr.fuel = ["endurance", "will", "lucky"]
+	arr.power = ["dexterity", "intellect", "strength"]
+	arr.aspect = ["endurance", "dexterity", "will", "intellect", "lucky", "strength"]
 
 
 func init_num() -> void:
@@ -39,10 +41,17 @@ func init_num() -> void:
 	num.width = {}
 	num.width.nucleotide = 4
 	num.width.spiral = 4
+	
+	num.aspect = {}
+	num.aspect.min = 10
+	num.aspect.max = 19
+	num.aspect.total = 15
 
 
 func init_dict() -> void:
 	init_neighbor()
+	init_font()
+	init_predisposition()
 
 
 func init_neighbor() -> void:
@@ -91,6 +100,27 @@ func init_neighbor() -> void:
 	]
 
 
+func init_font():
+	dict.font = {}
+	dict.font.size = {}
+	dict.font.size["basic"] = 18
+	dict.font.size["season"] = 18
+	dict.font.size["phase"] = 18
+	dict.font.size["moon"] = 18
+
+
+func init_predisposition() -> void:
+	dict.predisposition = {}
+	
+	var limits = [[0, 2], [1, 1], [2, 0], [1, 2], [2, 1]]
+	
+	for limit in limits:
+		var predisposition = {}
+		predisposition.fuel = limit.front()
+		predisposition.power = limit.back()
+		dict.predisposition[predisposition] = 1
+
+
 func init_blank() -> void:
 	dict.blank = {}
 	dict.blank.rank = {}
@@ -113,8 +143,9 @@ func init_blank() -> void:
 		dict.blank.rank[blank.rank].append(data)
 
 
-
 func init_scene() -> void:
+	scene.token = load("res://scene/0/token.tscn")
+	
 	scene.pantheon = load("res://scene/1/pantheon.tscn")
 	scene.god = load("res://scene/1/god.tscn")
 	
@@ -122,12 +153,15 @@ func init_scene() -> void:
 	scene.area = load("res://scene/2/area.tscn")
 	
 	scene.nucleotide = load("res://scene/3/nucleotide.tscn")
+	
+	scene.aspect = load("res://scene/4/aspect.tscn")
 
 
 func init_vec():
 	vec.size = {}
 	vec.size.sixteen = Vector2(16, 16)
 	vec.size.area = Vector2(60, 60)
+	vec.size.token = Vector2(vec.size.sixteen * 2)
 	
 	vec.size.spiral = Vector2(40, 3)
 	vec.size.dna = Vector2(vec.size.spiral.x * 2, vec.size.spiral.y * 2 * num.step.coil)
