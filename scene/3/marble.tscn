@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://8wwvqmlncqve"]
+
+[ext_resource type="PackedScene" uid="uid://b5o3l2n5k1o5o" path="res://scene/3/brick.tscn" id="1_260wo"]
+[ext_resource type="Script" path="res://scene/3/marble.gd" id="2_1wp8n"]
+
+[node name="Marble" instance=ExtResource("1_260wo")]
+script = ExtResource("2_1wp8n")

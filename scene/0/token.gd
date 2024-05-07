@@ -22,7 +22,7 @@ func set_attributes(input_: Dictionary) -> void:
 
 
 func init_basic_setting(input_: Dictionary) -> void:
-	var exceptions = ["index"]
+	var exceptions = []
 	
 	if exceptions.has(type):
 		custom_minimum_size = Vector2(Global.vec.size[type])

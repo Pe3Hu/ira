@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bouene40f15w3"]
 
 [ext_resource type="Script" path="res://scene/4/aspect.gd" id="1_fc7tp"]
-[ext_resource type="PackedScene" uid="uid://cijfgbdi8yqwa" path="res://scene/0/token.tscn" id="1_kcnts"]
+[ext_resource type="PackedScene" path="res://scene/0/token.tscn" id="1_kcnts"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 

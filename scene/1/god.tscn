@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6xt38h3tpi5k"]
+[gd_scene load_steps=7 format=3 uid="uid://b6xt38h3tpi5k"]
 
 [ext_resource type="Script" path="res://scene/1/god.gd" id="1_ceqed"]
-[ext_resource type="PackedScene" uid="uid://csn7iyhh5qbir" path="res://scene/3/dna.tscn" id="2_dqque"]
+[ext_resource type="PackedScene" uid="uid://csn7iyhh5qbir" path="res://scene/5/dna.tscn" id="2_dqque"]
 [ext_resource type="PackedScene" uid="uid://likoypjmwtku" path="res://scene/4/core.tscn" id="3_mp6dg"]
+[ext_resource type="PackedScene" uid="uid://dbx7nk7j4gdw5" path="res://scene/3/ruin.tscn" id="5_cr3fc"]
+[ext_resource type="PackedScene" uid="uid://cfn47l38cf0x" path="res://scene/3/foundation.tscn" id="5_hsblk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
@@ -34,7 +36,15 @@ theme_override_constants/separation = 0
 alignment = 1
 
 [node name="DNA" parent="HBox" instance=ExtResource("2_dqque")]
+visible = false
 layout_mode = 2
 
 [node name="Core" parent="HBox" instance=ExtResource("3_mp6dg")]
+visible = false
+layout_mode = 2
+
+[node name="Foundation" parent="HBox" instance=ExtResource("5_hsblk")]
+layout_mode = 2
+
+[node name="Ruin" parent="HBox" instance=ExtResource("5_cr3fc")]
 layout_mode = 2

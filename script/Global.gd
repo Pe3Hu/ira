@@ -24,6 +24,11 @@ func init_arr() -> void:
 	arr.fuel = ["endurance", "will", "lucky"]
 	arr.power = ["dexterity", "intellect", "strength"]
 	arr.aspect = ["endurance", "dexterity", "will", "intellect", "lucky", "strength"]
+	
+	arr.essence = ["lightning", "fire", "ice", "poison", "bone", "blood", "light", "void", "darkness"]
+	arr.offense = ["whip", "hammer", "spear"]
+	arr.defense = ["parry", "block", "dodge"]
+	arr.role = ["offense", "defense"]
 
 
 func init_num() -> void:
@@ -46,10 +51,21 @@ func init_num() -> void:
 	num.aspect.min = 10
 	num.aspect.max = 19
 	num.aspect.total = 15
+	
+	num.foundation = {}
+	num.foundation.n = 9
+	num.foundation.col = num.foundation.n
+	num.foundation.row = num.foundation.n
+	
+	num.brick = {}
+	num.brick.a = 32
+	num.brick.r = num.brick.a / sqrt(2)
+	num.brick.n = 4
 
 
 func init_dict() -> void:
 	init_neighbor()
+	init_corner()
 	init_font()
 	init_predisposition()
 
@@ -80,7 +96,7 @@ func init_neighbor() -> void:
 		Vector2( 1, 1),
 		Vector2( 0, 1)
 	]
-	dict.neighbor.hex = [
+	dict.neighbor.brick = [
 		[
 			Vector2( 1,-1), 
 			Vector2( 1, 0), 
@@ -98,6 +114,40 @@ func init_neighbor() -> void:
 			Vector2( 0,-1)
 		]
 	]
+	dict.neighbor.cube = [
+		Vector3(0, -1, +1),
+		Vector3(+1, -1, 0),
+		Vector3(+1, 0, -1),
+		Vector3(0, +1, -1), 
+		Vector3(-1, +1, 0),
+		Vector3(-1, 0, +1),   
+	]
+
+
+func init_corner() -> void:
+	dict.order = {}
+	dict.order.pair = {}
+	dict.order.pair["even"] = "odd"
+	dict.order.pair["odd"] = "even"
+	var corners = [4]
+	dict.corner = {}
+	dict.corner.vector = {}
+	
+	for corners_ in corners:
+		dict.corner.vector[corners_] = {}
+		dict.corner.vector[corners_].even = {}
+		
+		for order_ in dict.order.pair.keys():
+			dict.corner.vector[corners_][order_] = {}
+		
+			for _i in corners_:
+				var angle = 2*PI*_i/corners_-PI/2
+				
+				if order_ == "odd":
+					angle += PI/corners_
+				
+				var vertex = Vector2(1,0).rotated(angle)
+				dict.corner.vector[corners_][order_][_i] = vertex
 
 
 func init_font():
@@ -152,9 +202,13 @@ func init_scene() -> void:
 	scene.planet = load("res://scene/2/planet.tscn")
 	scene.area = load("res://scene/2/area.tscn")
 	
-	scene.nucleotide = load("res://scene/3/nucleotide.tscn")
+	scene.brick = load("res://scene/3/brick.tscn")
+	scene.pillar = load("res://scene/3/pillar.tscn")
+	scene.marble = load("res://scene/3/marble.tscn")
 	
 	scene.aspect = load("res://scene/4/aspect.tscn")
+	
+	scene.nucleotide = load("res://scene/5/nucleotide.tscn")
 
 
 func init_vec():
@@ -166,6 +220,9 @@ func init_vec():
 	vec.size.spiral = Vector2(40, 3)
 	vec.size.dna = Vector2(vec.size.spiral.x * 2, vec.size.spiral.y * 2 * num.step.coil)
 	vec.size.dna += Vector2(num.width.spiral, num.width.nucleotide)
+	
+	vec.size.brick = Vector2.ONE * num.brick.a
+	vec.size.essence = vec.size.brick * 0.75
 	
 	init_window_size()
 
@@ -187,6 +244,17 @@ func init_color():
 	color.nucleobase = {}
 	color.nucleobase.left = Color.from_hsv(60 / h, 0.6, 0.7)
 	color.nucleobase.right = Color.from_hsv(120 / h, 0.6, 0.7)
+	
+	color.brick = {}
+	color.brick.source = Color.from_hsv(0 / h, 0.9, 0.7)
+	color.brick.connector = Color.from_hsv(120 / h, 0.9, 0.7)
+	color.brick.wire = Color.from_hsv(210 / h, 0.9, 0.7)
+	color.brick.insulation = Color.from_hsv(270 / h, 0.9, 0.7)
+	
+	color.remoteness = {}
+	color.remoteness[1] = Color.from_hsv(20 / h, 0.8, 0.4)
+	color.remoteness[2] = Color.from_hsv(40 / h, 0.8, 0.4)
+	color.remoteness[3] = Color.from_hsv(60 / h, 0.8, 0.4)
 
 
 func save(path_: String, data_: String):

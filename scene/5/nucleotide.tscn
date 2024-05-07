@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dcl3jglu6vcq7"]
 
-[ext_resource type="Script" path="res://scene/3/nucleotide.gd" id="1_700l5"]
-[ext_resource type="PackedScene" uid="uid://v8no3xays6l" path="res://scene/3/nucleobase.tscn" id="2_ownc7"]
+[ext_resource type="Script" path="res://scene/5/nucleotide.gd" id="1_700l5"]
+[ext_resource type="PackedScene" uid="uid://v8no3xays6l" path="res://scene/5/nucleobase.tscn" id="2_ownc7"]
 
 [node name="Nucleotide" type="Line2D"]
 script = ExtResource("1_700l5")

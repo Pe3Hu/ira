@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://csn7iyhh5qbir"]
 
-[ext_resource type="Script" path="res://scene/3/dna.gd" id="1_0xxje"]
-[ext_resource type="PackedScene" uid="uid://bdvwlut3oh8xb" path="res://scene/3/spiral.tscn" id="2_u3ypm"]
+[ext_resource type="Script" path="res://scene/5/dna.gd" id="1_0xxje"]
+[ext_resource type="PackedScene" uid="uid://bdvwlut3oh8xb" path="res://scene/5/spiral.tscn" id="2_u3ypm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 

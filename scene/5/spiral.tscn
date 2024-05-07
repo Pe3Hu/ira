@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bdvwlut3oh8xb"]
 
-[ext_resource type="Script" path="res://scene/3/spiral.gd" id="1_fpp8d"]
+[ext_resource type="Script" path="res://scene/5/spiral.gd" id="1_fpp8d"]
 
 [node name="Spiral" type="Line2D"]
 width = 4.0

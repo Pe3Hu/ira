@@ -44,5 +44,4 @@ func init_areas() -> void:
 			var area = Global.scene.area.instantiate()
 			areas.add_child(area)
 			area.set_attributes(input)
-
 #endregion
