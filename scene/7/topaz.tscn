@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcprjdoniug18"]
+
+[ext_resource type="PackedScene" uid="uid://bpsp5on2chw4s" path="res://scene/7/gem.tscn" id="1_xo4ft"]
+[ext_resource type="Script" path="res://scene/7/topaz.gd" id="2_t03nv"]
+
+[node name="Topaz" instance=ExtResource("1_xo4ft")]
+script = ExtResource("2_t03nv")

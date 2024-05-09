@@ -20,7 +20,7 @@ func init_basic_setting() -> void:
 
 
 func init_planets() -> void:
-	for _i in 0:
+	for _i in 1:
 		var input = {}
 		input.universe = self
 	

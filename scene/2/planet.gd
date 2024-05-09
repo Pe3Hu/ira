@@ -2,9 +2,12 @@ extends MarginContainer
 
 
 #region var
-@onready var areas = $Areas
+@onready var hbox = $VBox/HBox
+@onready var moon = $VBox/Moon
 
 var universe = null
+var gods = []
+var loser = null
 #endregion
 
 
@@ -12,36 +15,56 @@ var universe = null
 func set_attributes(input_: Dictionary) -> void:
 	universe = input_.universe
 	
-	
 	init_basic_setting()
 
 
 func init_basic_setting() -> void:
-	init_areas()
+	var input = {}
+	input.planet = self
+	moon.set_attributes(input)
 
 
-func init_areas() -> void:
-	var corners = {}
-	corners.x = [0, Global.num.area.col - 1]
-	corners.y = [0, Global.num.area.row - 1]
+func add_god(god_: MarginContainer) -> void:
+	god_.pantheon.gods.remove_child(god_)
+	hbox.add_child(god_)
 	
-	areas.columns = Global.num.area.col
+	if gods.is_empty():
+		hbox.move_child(god_, 0)
 	
-	for _i in Global.num.area.row:
-		for _j in Global.num.area.col:
-			var input = {}
-			input.planet = self
-			input.grid = Vector2(_j, _i)
-			
-			if corners.y.has(_i) or corners.x.has(_j):
-				if corners.y.has(_i) and corners.x.has(_j):
-					input.type = "corner"
-				else:
-					input.type = "edge"
-			else:
-				input.type = "center"
-	
-			var area = Global.scene.area.instantiate()
-			areas.add_child(area)
-			area.set_attributes(input)
+	gods.append(god_)
+	god_.planet = self
 #endregion
+
+
+func start_race() -> void:
+	init_gods_opponents()
+	roll_gods_order()
+	
+	#for god in gods:
+	#	for gem in Global.arr.gem:
+	
+	#for god in gods:
+	#	god.backpack.gems.topaz.refill_hand()
+	#
+	#for god in gods:
+		#god.grimoire.spread_topazes()
+	
+	#moon.follow_phase()
+
+
+func init_gods_opponents() -> void:
+	for _i in gods.size():
+		var god = gods[_i]
+		
+		for _j in range(_i + 1, gods.size(), 1):
+			var opponent = gods[_j]
+			
+			if god.pantheon != opponent.pantheon:
+				god.opponents.append(opponent)
+				opponent.opponents.append(god)
+
+
+func roll_gods_order() -> void:
+	moon.god = gods.pick_random()
+	var order = gods.find(moon.god) + 1
+	moon.order.set_value(order)

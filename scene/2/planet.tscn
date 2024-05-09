@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dx2nuet38b2lb"]
+[gd_scene load_steps=4 format=3 uid="uid://dx2nuet38b2lb"]
 
 [ext_resource type="Script" path="res://scene/2/planet.gd" id="1_ictb4"]
+[ext_resource type="PackedScene" path="res://scene/6/moon.tscn" id="2_2t0bn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7paps"]
 
@@ -26,5 +27,16 @@ visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7paps")
 
-[node name="Areas" type="GridContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Moon" parent="VBox" instance=ExtResource("2_2t0bn")]
+visible = false
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1

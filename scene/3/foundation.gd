@@ -19,21 +19,23 @@ func set_attributes(input_: Dictionary) -> void:
 
 
 func init_basic_setting() -> void:
-	rank = 3
+	rank = 1
 	ruin = god.ruin
+	
 	init_bricks()
 
 
 func init_bricks() -> void:
-	custom_minimum_size = rank * Global.vec.size.brick
+	custom_minimum_size = (rank + 2) * Global.vec.size.brick
 	bricks.position = Global.vec.size.brick / 2
 	
-	for _i in rank:
-		for _j in rank:
+	for _i in rank + 2:
+		for _j in rank + 2:
 			var grid = Vector2(_j, _i)
 			add_brick(grid)
 	
 	update_brick_neighbors()
+	spread_charges()
 
 
 func add_brick(grid_: Vector2) -> void:
@@ -59,6 +61,21 @@ func update_brick_neighbors() -> void:
 					neighbor.neighbors[brick] = -direction
 					brick.directions[direction] = neighbor
 					neighbor.directions[-direction] = brick
+
+
+func spread_charges() -> void:
+	var options = []
+	
+	for charge in Global.dict.foundation.rank[rank]:
+		for _i in Global.dict.foundation.rank[rank][charge]:
+			options.append(charge)
+	
+	options.shuffle()
+	
+	for _i in bricks.get_child_count():
+		var brick = bricks.get_child(_i)
+		var value = options.pop_front()
+		brick.charge.set_subtype(str(value))
 
 
 func reset() -> void:

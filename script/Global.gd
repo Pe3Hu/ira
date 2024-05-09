@@ -29,6 +29,15 @@ func init_arr() -> void:
 	arr.offense = ["whip", "hammer", "spear"]
 	arr.defense = ["parry", "block", "dodge"]
 	arr.role = ["offense", "defense"]
+	
+	arr.bag = ["amulet", "ring", "gem"]
+	arr.gem = ["emerald", "amethyst", "sapphire", "topaz", "pearl"]
+	arr.page = ["spell", "mantra"]
+	arr.offense = ["whip", "hammer", "spear"]
+	arr.defense = ["parry", "block", "dodge"]
+	arr.essence = ["lightning", "fire", "ice", "poison", "bone", "blood", "light", "void", "darkness"]
+	
+	arr.criterion = ["equal", "larger", "even", "odd", "identical", "unique"]
 
 
 func init_num() -> void:
@@ -68,6 +77,11 @@ func init_dict() -> void:
 	init_corner()
 	init_font()
 	init_predisposition()
+	init_area()
+	init_season()
+	init_gem()
+	
+	init_foundation()
 
 
 func init_neighbor() -> void:
@@ -171,26 +185,112 @@ func init_predisposition() -> void:
 		dict.predisposition[predisposition] = 1
 
 
-func init_blank() -> void:
-	dict.blank = {}
-	dict.blank.rank = {}
+func init_area() -> void:
+	dict.area = {}
+	dict.area.next = {}
+	dict.area.next[null] = "discharged"
+	dict.area.next["discharged"] = "available"
+	dict.area.next["available"] = "hand"
+	dict.area.next["hand"] = "discharged"
+	dict.area.next["broken"] = "discharged"
+	
+	dict.area.prior = {}
+	dict.area.prior["available"] = "discharged"
+	dict.area.prior["hand"] = "available"
+
+
+func init_season() -> void:
+	dict.season = {}
+	dict.season.phase = {}
+	dict.season.phase["spring"] = ["incoming"]
+	dict.season.phase["summer"] = ["selecting", "outcoming"]
+	dict.season.phase["autumn"] = ["wounding"]
+	dict.season.phase["winter"] = ["wilting", "sowing"]
+
+
+func init_gem() -> void:
+	var n = 3
+	var m = n * 2
+	dict.gem = {}
+	var counts = {}
+	counts["topaz"] = Vector2(6, n)
+	counts["pearl"] = Vector2(arr.essence.size(), n)
+	counts["emerald"] = Vector2(10, 1)
+	counts["amethyst"] = Vector2(arr.offense.size(), m)
+	counts["sapphire"] = Vector2(arr.defense.size(), m)
+	
+	for gem in arr.gem:
+		dict.gem[gem] = {}
+		var count = counts[gem]
+		
+		for _i in count.x:
+			var description = {}
+			description.type = gem
+		
+			match gem:
+				"topaz":
+					description.charge = _i + 1
+					description.capacity = 1
+				"pearl":
+					description.essence = arr.essence[_i]
+					description.capacity = 1
+				"emerald":
+					description.power = _i + 5
+				"amethyst":
+					description.seal = arr.offense[_i]
+					description.capacity = 3
+				"sapphire":
+					description.seal = arr.defense[_i]
+					description.capacity = 3
+			
+			for _j in count.y:
+				dict.gem[gem][description] = [_j]
+
+
+func init_foundation() -> void:
+	dict.foundation = {}
+	dict.foundation.rank = {}
 	var exceptions = ["rank"]
 	
-	var path = "res://asset/json/maoiri_blank.json"
+	var path = "res://asset/json/ira_foundation.json"
 	var array = load_data(path)
 	
-	for blank in array:
-		blank.rank = int(blank.rank)
+	for foundation in array:
+		foundation.rank = int(foundation.rank)
 		var data = {}
 		
-		for key in blank:
-			if !exceptions.has(key):
-				data[key] = blank[key]
+		for key in foundation:
+			if !exceptions.has(key) and foundation[key] > 0:
+				data[int(key)] = foundation[key]
 			
-		if !dict.blank.rank.has(blank.rank):
-			dict.blank.rank[blank.rank] = []
+		if !dict.foundation.rank.has(foundation.rank):
+			dict.foundation.rank[foundation.rank] = []
 	
-		dict.blank.rank[blank.rank].append(data)
+		dict.foundation.rank[foundation.rank] = data
+	
+	init_kits()
+
+
+func init_kits() -> void:
+	var lengths = {}
+	
+	for _i in 3:
+		for _j in 3:
+			var rank = _i * 3 + _j + 1
+			lengths[rank] = _i + 2#_i * 2 + 2
+	
+	for rank in lengths:
+		for length in lengths[rank]:
+			pass
+	
+	var rank = 2
+	var source = dict.foundation.rank[rank]
+	var result = get_all_constituents_based_on_limit(source, 2)
+	
+	for limit in result:
+		for constituent in result[limit]:
+			var criterions = get_appropriate_criterions(constituent)
+			print([constituent, criterions])
 
 
 func init_scene() -> void:
@@ -209,6 +309,14 @@ func init_scene() -> void:
 	scene.aspect = load("res://scene/4/aspect.tscn")
 	
 	scene.nucleotide = load("res://scene/5/nucleotide.tscn")
+	
+	scene.bag = load("res://scene/6/bag.tscn")
+	
+	for gem in arr.gem:
+		scene[gem] = load("res://scene/7/" + gem + ".tscn")
+	
+	scene.paragraph = load("res://scene/8/paragraph.tscn")
+	scene.charge = load("res://scene/8/charge.tscn")
 
 
 func init_vec():
@@ -223,6 +331,11 @@ func init_vec():
 	
 	vec.size.brick = Vector2.ONE * num.brick.a
 	vec.size.essence = vec.size.brick * 0.75
+	
+	vec.size.gem = Vector2(vec.size.token.x, vec.size.token.y)
+	vec.size.bag = Vector2()#vec.size.token.x * 6, vec.size.token.y * 5)
+	
+	vec.size.charge = Vector2(vec.size.token.x, vec.size.token.y)
 	
 	init_window_size()
 
@@ -245,16 +358,10 @@ func init_color():
 	color.nucleobase.left = Color.from_hsv(60 / h, 0.6, 0.7)
 	color.nucleobase.right = Color.from_hsv(120 / h, 0.6, 0.7)
 	
-	color.brick = {}
-	color.brick.source = Color.from_hsv(0 / h, 0.9, 0.7)
-	color.brick.connector = Color.from_hsv(120 / h, 0.9, 0.7)
-	color.brick.wire = Color.from_hsv(210 / h, 0.9, 0.7)
-	color.brick.insulation = Color.from_hsv(270 / h, 0.9, 0.7)
-	
-	color.remoteness = {}
-	color.remoteness[1] = Color.from_hsv(20 / h, 0.8, 0.4)
-	color.remoteness[2] = Color.from_hsv(40 / h, 0.8, 0.4)
-	color.remoteness[3] = Color.from_hsv(60 / h, 0.8, 0.4)
+	color.gem = {}
+	color.gem.selected = {}
+	color.gem.selected[true] = Color.from_hsv(160 / h, 0.4, 0.7)
+	color.gem.selected[false] = Color.from_hsv(60 / h, 0.2, 0.9)
 
 
 func save(path_: String, data_: String):
@@ -294,3 +401,90 @@ func get_random_key(dict_: Dictionary):
 	
 	print("!bug! index_r error in get_random_key func")
 	return null
+
+
+func get_all_constituents_based_on_limit(source_: Dictionary, limit_: int) -> Dictionary:
+	var constituents = {}
+	constituents[1] = []
+	
+	for nominal in source_:
+		var constituent = {}
+		constituent[nominal] = 1
+		constituents[1].append(constituent)
+	
+	for _i in limit_ - 1:
+		var limit = _i + 2
+		constituents[limit] = []
+		
+		for parent in constituents[limit - 1]:
+			for nominal in source_:
+				var child = parent.duplicate()
+				
+				if !child.has(nominal):
+					child[nominal] = 0
+				
+				child[nominal] += 1
+				
+				var constituent = {}
+				var nominals = child.keys()
+				nominals.sort()
+				
+				for _nominal in nominals:
+					constituent[_nominal] = child[nominal]
+				
+				
+				if source_[nominal] >= constituent[nominal] and !constituents[limit].has(constituent):
+					constituents[limit].append(constituent)
+	
+	return constituents
+
+
+func get_appropriate_criterions(constituent_: Dictionary) -> Array:
+	var criterions = []
+	var sum = 0
+	var count = 0
+	var minimum = constituent_.keys().front()
+	
+	for nominal in constituent_:
+		sum += constituent_[nominal] * nominal
+		count += constituent_[nominal]
+		
+		if minimum > nominal:
+			minimum = nominal
+	
+	for criterion in arr.criterion:
+		var description = {}
+		description.criterion = criterion
+		
+		match criterion:
+			"equal":
+				description.value = int(sum)
+				criterions.append(description)
+			"larger":
+				print(minimum)
+				for value in range(1, minimum, 1):
+					var _description = description.duplicate()
+					_description.value = int(value)
+					criterions.append(_description)
+			"even":
+				if sum % 2 == 0:
+					criterions.append(description)
+			"odd":
+				if sum % 2 == 1:
+					criterions.append(description)
+			"identical":
+				if constituent_.keys().size() == 1 and count > 1:
+					criterions.append(description)
+			"unique":
+				if count > 1:
+					var flag = true
+					
+					for nominal in constituent_:
+						if constituent_[nominal] > 1:
+							flag = false
+							break
+					
+					if flag:
+						criterions.append(description)
+	
+	return criterions

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cp23gb4w0yat4"]
+
+[ext_resource type="PackedScene" uid="uid://bpsp5on2chw4s" path="res://scene/7/gem.tscn" id="1_7rt6m"]
+[ext_resource type="Script" path="res://scene/7/pearl.gd" id="2_w4cnl"]
+
+[node name="Pearl" instance=ExtResource("1_7rt6m")]
+script = ExtResource("2_w4cnl")

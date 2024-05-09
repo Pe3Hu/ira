@@ -3,7 +3,7 @@ extends Polygon2D
 
 #region var
 @onready var index = $Index
-@onready var essence = $Essence
+@onready var charge = $Charge
 
 var proprietor = null
 var grid = null
@@ -35,10 +35,10 @@ func init_basic_setting() -> void:
 func init_tokens() -> void:
 	var input = {}
 	input.proprietor = self
-	input.type = "essence"
-	input.subtype = "empty"
-	essence.set_attributes(input)
-	essence.custom_minimum_size = Global.vec.size.essence
+	input.type = "charge"
+	input.subtype = "0"
+	charge.set_attributes(input)
+	charge.custom_minimum_size = Global.vec.size.brick
 	
 	input.type = "index"
 	input.subtype = "brick"

@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://blpg3xpd03wyu"]
+
+[ext_resource type="PackedScene" uid="uid://bpsp5on2chw4s" path="res://scene/7/gem.tscn" id="1_2ya4m"]
+[ext_resource type="Script" path="res://scene/7/amethyst.gd" id="2_kenqx"]
+[ext_resource type="PackedScene" path="res://scene/0/token.tscn" id="3_264xb"]
+
+[node name="Amethyst" instance=ExtResource("1_2ya4m")]
+script = ExtResource("2_kenqx")
+
+[node name="Seal" parent="HBox" index="0" instance=ExtResource("3_264xb")]
+layout_mode = 2
